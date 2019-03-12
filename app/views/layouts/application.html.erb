@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Twitter</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+
+  <body>
+    <header>
+      <div class="header-logo">
+        <% if @current_user %>
+          <%= link_to("Twitter", "/posts/index") %>
+        <% else %>
+          <%= link_to("Twitter", "/") %>
+        <% end %>
+      </div>
+      <ul class="header-menus">
+        <% if @current_user %>
+        <li>
+          <a href="/posts/index">投稿一覧</a>
+        </li>
+        <li>
+          <a href="/posts/new">新規投稿</a>
+        </li>
+        <li>
+          <a href="/users/index">ユーザー一覧</a>
+        </li>
+        <li>
+          <%= link_to(@current_user.name, "/users/#{@current_user.id}") %>
+        </li>
+        <li>
+          <%= link_to("ログアウト", "/logout", {method: :post}) %>
+        </li>
+        <% else %>
+        <li>
+          <a href="/about">Twitterとは</a>
+        </li>
+        <li>
+          <a href="/signup">新規登録</a>
+        </li>
+        <li>
+          <a href="/login">ログイン</a>
+        </li>
+        <% end %>
+      </ul>
+    </header>
+    
+    <!--サクセス・エラーメッセージ-->
+    <% if flash[:notice] %>
+      <div class="flash">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+    <%= yield %>
+  </body>
+</html>
